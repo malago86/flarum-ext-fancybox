@@ -2,7 +2,7 @@
   "name": "@the-turk/fancybox",
   "description": "Image formatting and lightbox modal using FancyBox. (see https://fancyapps.com/fancybox)",
   "license": "GPL-3.0-or-later",
-  "version": "0.2.0-beta.2",
+  "version": "0.2.0-beta.3",
   "dependencies": {
     "flarum-webpack-config": "0.1.0-beta.10",
     "webpack": "^4.43.0",

@@ -5787,7 +5787,7 @@ function categorizeImages(element) {
     return "\n      <div class=\"caption-wrapper\">\n        <span>" + caption + "</span>\n      </div>\n    ";
   };
 
-  $(element).find('p > img:not([class]):not([data-nothing-fancy])').each(function (i, e) {
+  $(element).find('p, th, td').children('img:not([class]):not([data-nothing-fancy])').each(function (i, e) {
     var caption = $(e).attr('title') || '';
 
     if ($(e).parent().contents().length === 1) {
@@ -5801,7 +5801,7 @@ function categorizeImages(element) {
     $(e).parent().append(badgeHtml);
     if (caption != '') $(e).closest('a').append(captionHtml(caption));
   });
-  $(element).find("p a:not(\n      .block-image-link,\n      .inline-image-link,\n      .block-image-self-link,\n      .inline-image-self-link\n    ) > img:not([class])").each(function (i, e) {
+  $(element).find('p, th, td').find("a:not(\n      .block-image-link,\n      .inline-image-link,\n      .block-image-self-link,\n      .inline-image-self-link\n    ) > img:not([class])").each(function (i, e) {
     var link = $(e).parent();
 
     if (typeof $(e).data('nothing-fancy') !== 'undefined' && !(link.hasClass('fancybox--iframe-link') || link.hasClass('fancybox--video-link'))) {

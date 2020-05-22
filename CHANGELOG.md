@@ -1,3 +1,6 @@
+### 0.2.0-beta.3
+- **Fix** it was not working for elements inside tables.
+
 ### 0.2.0-beta.2
 - **Add** close button.
 - **Add** new `fancy` attribute for `IMG` and `URL` BBCodes (requires `flarum/bbcode` extension).

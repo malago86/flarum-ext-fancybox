@@ -32,7 +32,7 @@ function categorizeImages(element) {
     `;
   };
 
-  $(element).find('p > img:not([class]):not([data-nothing-fancy])').each((i, e) => {
+  $(element).find('p, th, td').children('img:not([class]):not([data-nothing-fancy])').each((i, e) => {
     let caption = $(e).attr('title') || '';
 
     if ($(e).parent().contents().length === 1) {
@@ -47,7 +47,7 @@ function categorizeImages(element) {
     if (caption != '') $(e).closest('a').append(captionHtml(caption));
   });
 
-  $(element).find(`p a:not(
+  $(element).find('p, th, td').find(`a:not(
       .block-image-link,
       .inline-image-link,
       .block-image-self-link,
