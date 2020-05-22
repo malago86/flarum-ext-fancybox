@@ -37,10 +37,10 @@ function categorizeImages(element) {
 
     if ($(e).parent().contents().length === 1) {
       $(e).addClass('block-image');
-      $(e).wrap('<a class="block-image-self-link">' + imageWrapperHtml + '</a>');
+      $(e).wrap('<a class="block-image-self-link" role="button">' + imageWrapperHtml + '</a>');
     } else {
       $(e).addClass('inline-image');
-      $(e).wrap('<a class="inline-image-self-link">' + imageWrapperHtml + '</a>');
+      $(e).wrap('<a class="inline-image-self-link" role="button">' + imageWrapperHtml + '</a>');
     }
 
     $(e).parent().append(badgeHtml);
