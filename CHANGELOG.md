@@ -1,3 +1,7 @@
+### 0.2.0-beta.4
+- **Fix** captions were not working when you define them in URL BBCodes.
+- Give the `button` role to empty anchor tags for the sake of semantics.
+
 ### 0.2.0-beta.3
 - **Fix** it was not working for elements inside tables.
 
