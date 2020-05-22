@@ -1,4 +1,4 @@
-/*  
+/*
  *  FancyBox Extension for Flarum
  *  Copyright (C) 2019 Eleanor Hawk
  *
@@ -15,107 +15,127 @@
 
 @import (inline) "jquery.fancybox.css";
 
+#post-image-link() {
+  border: none;
+  border-radius: @border-radius;
+  background-color: @control-bg;
+  overflow: hidden;
+  padding: 6px;
+}
+
 #post-image() {
-    padding: 4px;
-    border-radius: 4px;
-    background-color: @control-bg;
-}
-
-.Post img.inline-image {
-    #post-image;
-    max-height: 120px;
-    max-width: 240px;
-    width: auto;
-    margin-left: 8px;
-    margin-right: 8px;
-}
-
-.Post img.block-image {
-    #post-image;
-    display: block;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    margin-left: auto;
-    margin-right: auto;
-    min-width: 60%;
+  border-radius: @border-radius;
 }
 
 #extlink-badge() {
-    width: 22px;
-    height: 22px;
-    border-radius: 4px;
-    background-color: @control-bg;
-    text-align: center;
-    opacity: 0.6;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-top-left-radius: @border-radius;
+  background-color: @control-bg;
+  text-align: center;
+  opacity: 0.6;
+  right: 0;
+  bottom: 0;
 
-    i {
-        color: @control-color;
-    }
+  span {
+    font-family: "Font Awesome 5 Free";
+    color: @control-color;
+  }
 }
 
-.Post a.block-image-link {
-    display: block;
-    background-color: @control-bg;
-    border: none;
-    position: relative;
-    padding: 15px;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-
-    img {
-        width: 100%;
-        padding: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        border-radius: 0;
-    }
-
-    .extlink-badge {
-        #extlink-badge;
-        position: absolute;
-        right: 8px;
-        bottom: 8px;
-        vertical-align: middle;
-    }    
+.Post .image-wrapper {
+  position: relative;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.Post a.inline-image-link {
-    display: inline-block;
-    background-color: @control-bg;
-    border: none;
-    padding: 4px;
-    margin-left: 4px;
-    margin-right: 4px;
-    border-radius: 4px;
+.Post .caption-wrapper span {
+  display: block;
+  color: @text-color;
+  font-size: 13px;
+  font-weight: normal;
+  padding: 5px 0;
+}
 
-    img {
-        position: relative;
-        top: 4px;
-        margin-top: 0;
-        margin-bottom: 0;
-        padding: 0;
-        border-radius: 0;
-    }
+.Post a.block-image-link, .Post a.block-image-self-link {
+  #post-image-link;
+  display: block;
+  max-width: 450px;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
 
-    .extlink-badge {
-        #extlink-badge;
-        display: inline-block;
-        vertical-align: text-bottom;
-        margin-left: 4px;
-    }
+  img {
+    #post-image;
+    width: auto;
+  }
+}
+
+.Post a.block-image-link .extlink-badge {
+  #extlink-badge;
+  span::before {
+    content: "\f35d";
+  }
+}
+
+.Post a.block-image-self-link .extlink-badge {
+  #extlink-badge;
+  span::before {
+    content: "\f03e";
+  }
+}
+
+.Post a.inline-image-link, .Post a.inline-image-self-link {
+  #post-image-link;
+  display: inline-block;
+  max-width: 220px;
+  margin-left: 4px;
+  margin-right: 4px;
+
+  img {
+    #post-image;
+    max-height: 120px;
+    width: auto;
+  }
+}
+
+.Post a.inline-image-link .extlink-badge {
+  #extlink-badge;
+  span::before {
+    content: "\f35d";
+  }
+}
+
+.Post a.inline-image-self-link .extlink-badge {
+  #extlink-badge;
+  span::before {
+    content: "\f03e";
+  }
+}
+
+.Post a.fancybox--video-link .extlink-badge span::before {
+  content: "\f03d";
+}
+
+.Post a.fancybox--iframe-link .extlink-badge span::before {
+  content: "\f2d2";
 }
 
 .Post a:hover .extlink-badge {
-    opacity: 1;
+  opacity: 1;
 }
 
 .fancybox-bg {
-    background-color: @overlay-bg;
+  background-color: @overlay-bg;
 }
+
 .fancybox-is-open .fancybox-bg {
-    opacity: 1;
+  opacity: 1;
 }
+
 .fancybox-content {
-    .box-shadow(0 7px 15px @shadow-color);
+  .box-shadow(0 7px 15px @shadow-color);
 }

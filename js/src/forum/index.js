@@ -1,4 +1,4 @@
-/*  
+/*
  *  FancyBox Extension for Flarum
  *  Copyright (C) 2019 Eleanor Hawk
  *
@@ -13,21 +13,55 @@
  *  GNU General Public License for more details.
  */
 
-import "@fancyapps/fancybox";
-
 import { extend } from 'flarum/extend';
 import CommentPost from 'flarum/components/CommentPost';
 import ModalManager from 'flarum/components/ModalManager';
+import fancybox from "@fancyapps/fancybox";
 
 function categorizeImages(element) {
-  $(element).find('p > img:not([class])').each((i, e) => {
-    if ($(e).parent().contents().length === 1)
+  const imageWrapperHtml = '<div class="image-wrapper"></div>';
+  const badgeHtml = `
+    <div class="extlink-badge">
+      <span></span>
+    </div>`;
+  var captionHtml = function (caption) {
+    return `
+      <div class="caption-wrapper">
+        <span>` + caption + `</span>
+      </div>
+    `;
+  };
+
+  $(element).find('p > img:not([class]):not([data-nothing-fancy])').each((i, e) => {
+    let caption = $(e).attr('title') || '';
+
+    if ($(e).parent().contents().length === 1) {
       $(e).addClass('block-image');
-    else
+      $(e).wrap('<a class="block-image-self-link">' + imageWrapperHtml + '</a>');
+    } else {
       $(e).addClass('inline-image');
+      $(e).wrap('<a class="inline-image-self-link">' + imageWrapperHtml + '</a>');
+    }
+
+    $(e).parent().append(badgeHtml);
+    if (caption != '') $(e).closest('a').append(captionHtml(caption));
   });
-  $(element).find('p a:not(.block-image-link,.inline-image-link,.block-image-self-link) > img:not([class])').each((i, e) => {
+
+  $(element).find(`p a:not(
+      .block-image-link,
+      .inline-image-link,
+      .block-image-self-link,
+      .inline-image-self-link
+    ) > img:not([class])`).each((i, e) => {
     let link = $(e).parent();
+
+    if (typeof $(e).data('nothing-fancy') !== 'undefined'
+          && !(link.hasClass('fancybox--iframe-link') || link.hasClass('fancybox--video-link'))) {
+    	return true;
+    }
+
+    let caption = $(e).attr('title') || link.attr('title') || '';
+
     if (link.contents().length === 1
       && link.parent().contents().length === 1) {
       $(e).addClass('block-image');
@@ -35,48 +69,81 @@ function categorizeImages(element) {
         link.addClass('block-image-link');
       } else {
         link.addClass('block-image-self-link');
-        return;
       }
     } else {
       $(e).addClass('inline-image');
-      link.addClass('inline-image-link');
+      if ($(e).attr('src') !== link.attr('href')) {
+        link.addClass('inline-image-link');
+      } else {
+        link.addClass('inline-image-self-link');
+      }
     }
-    let iconWrapper = document.createElement('div');
-    iconWrapper.className = 'extlink-badge';
-    let icon = document.createElement('i');
-    icon.className = 'fas fa-external-link-alt';
-    iconWrapper.appendChild(icon);
-    link.append(iconWrapper);
+
+    link.append(badgeHtml);
+    link.wrapInner(imageWrapperHtml);
+    if (caption != '') link.append(captionHtml(caption));
   });
 }
 
 app.initializers.add('fancybox', app => {
   $.fancybox.defaults.toolbar = false;
+  $.fancybox.defaults.smallBtn = true;
   $.fancybox.defaults.lang = app.translator.locale;
   $.fancybox.defaults.i18n[app.translator.locale] = {
     NEXT: app.translator.trans('fancybox.forum.next'),
     PREV: app.translator.trans('fancybox.forum.prev'),
+    CLOSE: app.translator.trans('fancybox.forum.close'),
     ERROR: app.translator.trans('fancybox.forum.error')
   }
 
   extend(CommentPost.prototype, 'config', function(x, isInitialized, context) {
     categorizeImages(this.element);
-    $(this.element).find('.block-image-self-link').click((e) => e.preventDefault());
+
+    $(this.element).find(`
+      a.block-image-self-link,
+      a.inline-image-self-link,
+      a.fancybox--iframe-link,
+      a.fancybox--video-link
+    `).click((e) => e.preventDefault());
+
     if (!this.isEditing() && !('fancybox_gallery' in this)) {
-      let images = $(this.element).find('img.inline-image,img.block-image').not('a.block-image-link *, a.inline-image-link *');
-      let gallery = images.map((i, e) => {
+      let fancies = $(this.element).find(`
+        img.inline-image,
+        img.block-image,
+        a.fancybox--iframe-link,
+        a.fancybox--video-link
+      `).not(`
+        a.block-image-link *,
+        a.inline-image-link *`
+      );
+
+      let gallery = fancies.map((i, e) => {
+        let type = '';
+        let src = $(e).prop('tagName') === 'A' ? e.getAttribute('href') : e.getAttribute('src');
+
+        if ($(e).hasClass('fancybox--iframe-link')) {
+          type = 'iframe';
+        } else if (!$(e).hasClass('fancybox--video-link')) {
+          type = 'image';
+        }
+
         return {
-          src: e.getAttribute('src'),
-          type: 'image'
+          src: src,
+          type: type,
+          opts : {
+      			caption : e.getAttribute('title')
+      		}
         }
       });
+
       this.fancybox_gallery = gallery.length ? gallery : false;
+
       if (this.fancybox_gallery) {
-        images.each((i, e) => {
+        fancies.each((i, e) => {
           let index = i;
-          e.style.cursor = 'pointer';
-          $(e).off('click.fancybox');
-          $(e).on('click.fancybox', (event) => {
+
+          $(e).closest('a').off('click.fancybox');
+          $(e).closest('a').on('click.fancybox', (event) => {
             $.fancybox.open(this.fancybox_gallery, {}, index);
           });
         });
@@ -97,4 +164,3 @@ app.initializers.add('fancybox', app => {
     });
   }
 });
-

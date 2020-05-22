@@ -5752,15 +5752,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _fancyapps_fancybox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fancyapps/fancybox */ "./node_modules/@fancyapps/fancybox/dist/jquery.fancybox.js");
-/* harmony import */ var _fancyapps_fancybox__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_fancyapps_fancybox__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var flarum_extend__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/extend */ "flarum/extend");
-/* harmony import */ var flarum_extend__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_extend__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/components/CommentPost */ "flarum/components/CommentPost");
-/* harmony import */ var flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var flarum_components_ModalManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/components/ModalManager */ "flarum/components/ModalManager");
-/* harmony import */ var flarum_components_ModalManager__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_components_ModalManager__WEBPACK_IMPORTED_MODULE_3__);
-/*  
+/* harmony import */ var flarum_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/extend */ "flarum/extend");
+/* harmony import */ var flarum_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/components/CommentPost */ "flarum/components/CommentPost");
+/* harmony import */ var flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_components_ModalManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/components/ModalManager */ "flarum/components/ModalManager");
+/* harmony import */ var flarum_components_ModalManager__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_components_ModalManager__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _fancyapps_fancybox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fancyapps/fancybox */ "./node_modules/@fancyapps/fancybox/dist/jquery.fancybox.js");
+/* harmony import */ var _fancyapps_fancybox__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fancyapps_fancybox__WEBPACK_IMPORTED_MODULE_3__);
+/*
  *  FancyBox Extension for Flarum
  *  Copyright (C) 2019 Eleanor Hawk
  *
@@ -5780,11 +5780,35 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function categorizeImages(element) {
-  $(element).find('p > img:not([class])').each(function (i, e) {
-    if ($(e).parent().contents().length === 1) $(e).addClass('block-image');else $(e).addClass('inline-image');
+  var imageWrapperHtml = '<div class="image-wrapper"></div>';
+  var badgeHtml = "\n    <div class=\"extlink-badge\">\n      <span></span>\n    </div>";
+
+  var captionHtml = function captionHtml(caption) {
+    return "\n      <div class=\"caption-wrapper\">\n        <span>" + caption + "</span>\n      </div>\n    ";
+  };
+
+  $(element).find('p > img:not([class]):not([data-nothing-fancy])').each(function (i, e) {
+    var caption = $(e).attr('title') || '';
+
+    if ($(e).parent().contents().length === 1) {
+      $(e).addClass('block-image');
+      $(e).wrap('<a class="block-image-self-link">' + imageWrapperHtml + '</a>');
+    } else {
+      $(e).addClass('inline-image');
+      $(e).wrap('<a class="inline-image-self-link">' + imageWrapperHtml + '</a>');
+    }
+
+    $(e).parent().append(badgeHtml);
+    if (caption != '') $(e).closest('a').append(captionHtml(caption));
   });
-  $(element).find('p a:not(.block-image-link,.inline-image-link,.block-image-self-link) > img:not([class])').each(function (i, e) {
+  $(element).find("p a:not(\n      .block-image-link,\n      .inline-image-link,\n      .block-image-self-link,\n      .inline-image-self-link\n    ) > img:not([class])").each(function (i, e) {
     var link = $(e).parent();
+
+    if (typeof $(e).data('nothing-fancy') !== 'undefined' && !(link.hasClass('fancybox--iframe-link') || link.hasClass('fancybox--video-link'))) {
+      return true;
+    }
+
+    var caption = $(e).attr('title') || link.attr('title') || '';
 
     if (link.contents().length === 1 && link.parent().contents().length === 1) {
       $(e).addClass('block-image');
@@ -5793,54 +5817,68 @@ function categorizeImages(element) {
         link.addClass('block-image-link');
       } else {
         link.addClass('block-image-self-link');
-        return;
       }
     } else {
       $(e).addClass('inline-image');
-      link.addClass('inline-image-link');
+
+      if ($(e).attr('src') !== link.attr('href')) {
+        link.addClass('inline-image-link');
+      } else {
+        link.addClass('inline-image-self-link');
+      }
     }
 
-    var iconWrapper = document.createElement('div');
-    iconWrapper.className = 'extlink-badge';
-    var icon = document.createElement('i');
-    icon.className = 'fas fa-external-link-alt';
-    iconWrapper.appendChild(icon);
-    link.append(iconWrapper);
+    link.append(badgeHtml);
+    link.wrapInner(imageWrapperHtml);
+    if (caption != '') link.append(captionHtml(caption));
   });
 }
 
 app.initializers.add('fancybox', function (app) {
   $.fancybox.defaults.toolbar = false;
+  $.fancybox.defaults.smallBtn = true;
   $.fancybox.defaults.lang = app.translator.locale;
   $.fancybox.defaults.i18n[app.translator.locale] = {
     NEXT: app.translator.trans('fancybox.forum.next'),
     PREV: app.translator.trans('fancybox.forum.prev'),
+    CLOSE: app.translator.trans('fancybox.forum.close'),
     ERROR: app.translator.trans('fancybox.forum.error')
   };
-  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_1__["extend"])(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_2___default.a.prototype, 'config', function (x, isInitialized, context) {
+  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_1___default.a.prototype, 'config', function (x, isInitialized, context) {
     var _this = this;
 
     categorizeImages(this.element);
-    $(this.element).find('.block-image-self-link').click(function (e) {
+    $(this.element).find("\n      a.block-image-self-link,\n      a.inline-image-self-link,\n      a.fancybox--iframe-link,\n      a.fancybox--video-link\n    ").click(function (e) {
       return e.preventDefault();
     });
 
     if (!this.isEditing() && !('fancybox_gallery' in this)) {
-      var images = $(this.element).find('img.inline-image,img.block-image').not('a.block-image-link *, a.inline-image-link *');
-      var gallery = images.map(function (i, e) {
+      var fancies = $(this.element).find("\n        img.inline-image,\n        img.block-image,\n        a.fancybox--iframe-link,\n        a.fancybox--video-link\n      ").not("\n        a.block-image-link *,\n        a.inline-image-link *");
+      var gallery = fancies.map(function (i, e) {
+        var type = '';
+        var src = $(e).prop('tagName') === 'A' ? e.getAttribute('href') : e.getAttribute('src');
+
+        if ($(e).hasClass('fancybox--iframe-link')) {
+          type = 'iframe';
+        } else if (!$(e).hasClass('fancybox--video-link')) {
+          type = 'image';
+        }
+
         return {
-          src: e.getAttribute('src'),
-          type: 'image'
+          src: src,
+          type: type,
+          opts: {
+            caption: e.getAttribute('title')
+          }
         };
       });
       this.fancybox_gallery = gallery.length ? gallery : false;
 
       if (this.fancybox_gallery) {
-        images.each(function (i, e) {
+        fancies.each(function (i, e) {
           var index = i;
-          e.style.cursor = 'pointer';
-          $(e).off('click.fancybox');
-          $(e).on('click.fancybox', function (event) {
+          $(e).closest('a').off('click.fancybox');
+          $(e).closest('a').on('click.fancybox', function (event) {
             $.fancybox.open(_this.fancybox_gallery, {}, index);
           });
         });
@@ -5849,12 +5887,12 @@ app.initializers.add('fancybox', function (app) {
       delete this.fancybox_gallery;
     }
   });
-  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_1__["extend"])(flarum_components_ModalManager__WEBPACK_IMPORTED_MODULE_3___default.a.prototype, 'show', function (x) {
+  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_ModalManager__WEBPACK_IMPORTED_MODULE_2___default.a.prototype, 'show', function (x) {
     $.fancybox.close();
   });
 
   if (s9e && s9e.TextFormatter) {
-    Object(flarum_extend__WEBPACK_IMPORTED_MODULE_1__["extend"])(s9e.TextFormatter, 'preview', function (x, preview, element) {
+    Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(s9e.TextFormatter, 'preview', function (x, preview, element) {
       if (element.matches('.Post *')) categorizeImages(element);
     });
   }

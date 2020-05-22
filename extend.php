@@ -1,5 +1,5 @@
 <?php
-/*  
+/*
  *  FancyBox Extension for Flarum
  *  Copyright (C) 2019 Eleanor Hawk
  *
@@ -14,13 +14,17 @@
  *  GNU General Public License for more details.
  */
 
-namespace Squeevee\FancyBox;
+namespace TheTurk\FancyBox;
 
 use Flarum\Extend;
+use Illuminate\Contracts\Events\Dispatcher;
 
 return [
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less'),
-    (new Extend\Locales(__DIR__ . '/locale') ),
+    (new Extend\Locales(__DIR__ . '/locale')),
+    function (Dispatcher $events) {
+        $events->subscribe(Listeners\ConfigureTextFormatter::class);
+    },
 ];

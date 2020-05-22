@@ -1,5 +1,6 @@
 fancybox:
   forum:
-    next: Next
-    prev: Previous
-    error: An error occured loading the image.
+    next:  Next
+    prev:  Previous
+    close: Close
+    error: The requested content cannot be loaded.
