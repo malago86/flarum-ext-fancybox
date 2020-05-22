@@ -5844,11 +5844,11 @@ app.initializers.add('the-turk-fancybox', function (app) {
     CLOSE: app.translator.trans('the-turk-fancybox.forum.close'),
     ERROR: app.translator.trans('the-turk-fancybox.forum.error')
   };
+  var selectors = "\n    a.block-image-self-link,\n    a.inline-image-self-link,\n    a.fancybox--iframe-link,\n    a.fancybox--video-link\n  ";
   Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_1___default.a.prototype, 'config', function (x, isInitialized, context) {
     var _this = this;
 
     categorizeImages(this.element);
-    var selectors = "\n      a.block-image-self-link,\n      a.inline-image-self-link,\n      a.fancybox--iframe-link,\n      a.fancybox--video-link\n    ";
     $(this.element).find(selectors).click(function (e) {
       return e.preventDefault();
     });

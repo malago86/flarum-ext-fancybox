@@ -96,16 +96,16 @@ app.initializers.add('the-turk-fancybox', app => {
     ERROR: app.translator.trans('the-turk-fancybox.forum.error')
   }
 
+  const selectors = `
+    a.block-image-self-link,
+    a.inline-image-self-link,
+    a.fancybox--iframe-link,
+    a.fancybox--video-link
+  `;
+
   extend(CommentPost.prototype, 'config', function(x, isInitialized, context) {
     categorizeImages(this.element);
-
-    const selectors = `
-      a.block-image-self-link,
-      a.inline-image-self-link,
-      a.fancybox--iframe-link,
-      a.fancybox--video-link
-    `;
-
+    
     $(this.element).find(selectors).click((e) => e.preventDefault());
 
     if (!this.isEditing() && !('fancybox_gallery' in this)) {
@@ -129,7 +129,7 @@ app.initializers.add('the-turk-fancybox', app => {
           src: src,
           type: type,
           opts : {
-      			caption : caption
+            caption : caption
       		}
         }
       });
