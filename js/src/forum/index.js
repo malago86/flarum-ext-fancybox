@@ -85,15 +85,15 @@ function categorizeImages(element) {
   });
 }
 
-app.initializers.add('fancybox', app => {
+app.initializers.add('the-turk-fancybox', app => {
   $.fancybox.defaults.toolbar = false;
   $.fancybox.defaults.smallBtn = true;
   $.fancybox.defaults.lang = app.translator.locale;
   $.fancybox.defaults.i18n[app.translator.locale] = {
-    NEXT: app.translator.trans('fancybox.forum.next'),
-    PREV: app.translator.trans('fancybox.forum.prev'),
-    CLOSE: app.translator.trans('fancybox.forum.close'),
-    ERROR: app.translator.trans('fancybox.forum.error')
+    NEXT: app.translator.trans('the-turk-fancybox.forum.next'),
+    PREV: app.translator.trans('the-turk-fancybox.forum.prev'),
+    CLOSE: app.translator.trans('the-turk-fancybox.forum.close'),
+    ERROR: app.translator.trans('the-turk-fancybox.forum.error')
   }
 
   extend(CommentPost.prototype, 'config', function(x, isInitialized, context) {
