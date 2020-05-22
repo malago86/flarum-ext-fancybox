@@ -3,20 +3,19 @@ namespace TheTurk\FancyBox\Listeners;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Formatter\Event\Configuring;
+use Flarum\Settings\SettingsRepositoryInterface;
 
 class ConfigureTextFormatter
 {
     /**
-     * @var Settings
+     * @var SettingsRepositoryInterface
      */
     protected $settings;
 
     /**
-     * Gets the settings variable. Called on Object creation.
-     *
-     * @param Settings $settings
+     * @param SettingsRepositoryInterface $settings
      */
-    public function __construct(Settings $settings)
+    public function __construct(SettingsRepositoryInterface $settings)
     {
         $this->settings = $settings;
     }
