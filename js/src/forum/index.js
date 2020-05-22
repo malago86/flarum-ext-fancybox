@@ -44,7 +44,7 @@ function categorizeImages(element) {
     }
 
     $(e).parent().append(badgeHtml);
-    if (caption != '') $(e).closest('a').append(captionHtml(caption));
+    if (caption !== '') $(e).closest('a').append(captionHtml(caption));
   });
 
   $(element).find('p, th, td').find(`a:not(
@@ -81,7 +81,7 @@ function categorizeImages(element) {
 
     link.append(badgeHtml);
     link.wrapInner(imageWrapperHtml);
-    if (caption != '') link.append(captionHtml(caption));
+    if (caption !== '') link.append(captionHtml(caption));
   });
 }
 
@@ -99,27 +99,25 @@ app.initializers.add('the-turk-fancybox', app => {
   extend(CommentPost.prototype, 'config', function(x, isInitialized, context) {
     categorizeImages(this.element);
 
-    $(this.element).find(`
+    const selectors = `
       a.block-image-self-link,
       a.inline-image-self-link,
       a.fancybox--iframe-link,
       a.fancybox--video-link
-    `).click((e) => e.preventDefault());
+    `;
+
+    $(this.element).find(selectors).click((e) => e.preventDefault());
 
     if (!this.isEditing() && !('fancybox_gallery' in this)) {
-      let fancies = $(this.element).find(`
-        img.inline-image,
-        img.block-image,
-        a.fancybox--iframe-link,
-        a.fancybox--video-link
-      `).not(`
+      let fancies = $(this.element).find(selectors).not(`
         a.block-image-link *,
         a.inline-image-link *`
       );
 
       let gallery = fancies.map((i, e) => {
-        let type = '';
-        let src = $(e).prop('tagName') === 'A' ? e.getAttribute('href') : e.getAttribute('src');
+        let type;
+        let caption = $(e).find('img').attr('title') || $(e).attr('title') || '';
+        let src = $(e).attr('href') || $(e).find('img').attr('src');
 
         if ($(e).hasClass('fancybox--iframe-link')) {
           type = 'iframe';
@@ -131,7 +129,7 @@ app.initializers.add('the-turk-fancybox', app => {
           src: src,
           type: type,
           opts : {
-      			caption : e.getAttribute('title')
+      			caption : caption
       		}
         }
       });
@@ -142,8 +140,8 @@ app.initializers.add('the-turk-fancybox', app => {
         fancies.each((i, e) => {
           let index = i;
 
-          $(e).closest('a').off('click.fancybox');
-          $(e).closest('a').on('click.fancybox', (event) => {
+          $(e).off('click.fancybox');
+          $(e).on('click.fancybox', (event) => {
             $.fancybox.open(this.fancybox_gallery, {}, index);
           });
         });

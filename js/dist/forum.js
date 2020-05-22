@@ -5799,7 +5799,7 @@ function categorizeImages(element) {
     }
 
     $(e).parent().append(badgeHtml);
-    if (caption != '') $(e).closest('a').append(captionHtml(caption));
+    if (caption !== '') $(e).closest('a').append(captionHtml(caption));
   });
   $(element).find('p, th, td').find("a:not(\n      .block-image-link,\n      .inline-image-link,\n      .block-image-self-link,\n      .inline-image-self-link\n    ) > img:not([class])").each(function (i, e) {
     var link = $(e).parent();
@@ -5830,7 +5830,7 @@ function categorizeImages(element) {
 
     link.append(badgeHtml);
     link.wrapInner(imageWrapperHtml);
-    if (caption != '') link.append(captionHtml(caption));
+    if (caption !== '') link.append(captionHtml(caption));
   });
 }
 
@@ -5848,15 +5848,17 @@ app.initializers.add('the-turk-fancybox', function (app) {
     var _this = this;
 
     categorizeImages(this.element);
-    $(this.element).find("\n      a.block-image-self-link,\n      a.inline-image-self-link,\n      a.fancybox--iframe-link,\n      a.fancybox--video-link\n    ").click(function (e) {
+    var selectors = "\n      a.block-image-self-link,\n      a.inline-image-self-link,\n      a.fancybox--iframe-link,\n      a.fancybox--video-link\n    ";
+    $(this.element).find(selectors).click(function (e) {
       return e.preventDefault();
     });
 
     if (!this.isEditing() && !('fancybox_gallery' in this)) {
-      var fancies = $(this.element).find("\n        img.inline-image,\n        img.block-image,\n        a.fancybox--iframe-link,\n        a.fancybox--video-link\n      ").not("\n        a.block-image-link *,\n        a.inline-image-link *");
+      var fancies = $(this.element).find(selectors).not("\n        a.block-image-link *,\n        a.inline-image-link *");
       var gallery = fancies.map(function (i, e) {
-        var type = '';
-        var src = $(e).prop('tagName') === 'A' ? e.getAttribute('href') : e.getAttribute('src');
+        var type;
+        var caption = $(e).find('img').attr('title') || $(e).attr('title') || '';
+        var src = $(e).attr('href') || $(e).find('img').attr('src');
 
         if ($(e).hasClass('fancybox--iframe-link')) {
           type = 'iframe';
@@ -5868,7 +5870,7 @@ app.initializers.add('the-turk-fancybox', function (app) {
           src: src,
           type: type,
           opts: {
-            caption: e.getAttribute('title')
+            caption: caption
           }
         };
       });
@@ -5877,8 +5879,8 @@ app.initializers.add('the-turk-fancybox', function (app) {
       if (this.fancybox_gallery) {
         fancies.each(function (i, e) {
           var index = i;
-          $(e).closest('a').off('click.fancybox');
-          $(e).closest('a').on('click.fancybox', function (event) {
+          $(e).off('click.fancybox');
+          $(e).on('click.fancybox', function (event) {
             $.fancybox.open(_this.fancybox_gallery, {}, index);
           });
         });
