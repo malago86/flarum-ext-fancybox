@@ -1,5 +1,5 @@
 <?php
-namespace TheTurk\FancyBox\Listeners;
+namespace Malago\FancyBox\Listeners;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Formatter\Event\Configuring;

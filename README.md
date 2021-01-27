@@ -1,8 +1,8 @@
 # fancyBox Extension for Flarum
 
-[![GPLv3 license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/the-turk/flarum-ext-fancybox/blob/master/LICENSE) [![Latest Stable Version](https://img.shields.io/packagist/v/the-turk/flarum-ext-fancybox.svg)](https://packagist.org/packages/the-turk/flarum-ext-fancybox) [![Total Downloads](https://img.shields.io/packagist/dt/the-turk/flarum-ext-fancybox.svg)](https://packagist.org/packages/the-turk/flarum-ext-fancybox)
+[![GPLv3 license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/malago/flarum-ext-fancybox/blob/master/LICENSE) [![Latest Stable Version](https://img.shields.io/packagist/v/malago/flarum-ext-fancybox.svg)](https://packagist.org/packages/malago/flarum-ext-fancybox) [![Total Downloads](https://img.shields.io/packagist/dt/malago/flarum-ext-fancybox.svg)](https://packagist.org/packages/malago/flarum-ext-fancybox)
 
-**Disclaimer:** This extension has forked from `squeevee/flarum-ext-fancybox`
+**Disclaimer:** This extension has forked from `the-turk/flarum-ext-fancybox`
 
 ![fancyBox](https://i.ibb.co/kBWDJSL/fancyBox.png)
 
@@ -18,19 +18,19 @@
 
 ## Conflictions
 
-- This package conflicts with `squeevee/flarum-ext-fancybox`, so you need to remove it first.
+- This package conflicts with `squeevee/flarum-ext-fancybox` and `the-turk/flarum-ext-fancybox`, so you need to remove them first.
 - It seems like this package is not compatible with `reflar/recache` (see [#4](https://github.com/squeevee/flarum-ext-fancybox/issues/4)).
 
 ## Installation
 
 ```bash
-composer require the-turk/flarum-ext-fancybox
+composer require malago/flarum-ext-fancybox
 ```
 
 ## Updating
 
 ```bash
-composer update the-turk/flarum-ext-fancybox
+composer update malago/flarum-ext-fancybox
 php flarum cache:clear
 ```
 
@@ -87,6 +87,6 @@ You need to have the `flarum/bbcode` extension in order to add captions. The `ti
 ## Links
 
 - [Flarum Discuss post](https://discuss.flarum.org/d/19535-fancybox-extension-beta)
-- [Source code on GitHub](https://github.com/the-turk/flarum-ext-fancybox)
-- [Changelog](https://github.com/the-turk/flarum-ext-fancybox/blob/master/CHANGELOG.md)
-- [Download via Packagist](https://packagist.org/packages/the-turk/flarum-ext-fancybox)
+- [Source code on GitHub](https://github.com/malago86/flarum-ext-fancybox)
+- [Changelog](https://github.com/malago86/flarum-ext-fancybox/blob/master/CHANGELOG.md)
+- [Download via Packagist](https://packagist.org/packages/malago/flarum-ext-fancybox)

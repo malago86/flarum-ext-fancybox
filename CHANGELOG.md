@@ -1,3 +1,6 @@
+### 0.2.0-beta.5
+- Added compatibility with Flarum 0.1.0-beta.14
+
 ### 0.2.0-beta.4
 - **Fix** captions were not working when you define them in URL BBCodes.
 - Give the `button` role to empty anchor tags for the sake of semantics.

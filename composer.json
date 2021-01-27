@@ -1,15 +1,20 @@
 {
-    "name": "the-turk/flarum-ext-fancybox",
-    "description": "Image formatting and lightbox modal using fancyBox (forked from squeevee's).",
-    "type": "flarum-extension",
-    "require": {
-        "flarum/core": "^0.1.0-beta.8"
-    },
-    "conflict": {
+  "name": "malago/flarum-ext-fancybox",
+  "description": "Image formatting and lightbox modal using fancyBox (original from the-turk and squeevee).",
+  "keywords": [
+    "flarum"
+  ],
+  "conflict":
+    {
+      "the-turk/flarum-ext-fancybox": ">=0.1-beta",
       "squeevee/flarum-ext-fancybox": ">=0.1-beta"
     },
-    "license": "GPL-3.0-or-later",
-    "authors": [
+  "type": "flarum-extension",
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "flarum/core": "^0.1.0-beta.14"
+  },
+  "authors": [
         {
             "name": "Ellie Hawk",
             "email": "squeevee@yahoo.com"
@@ -19,23 +24,26 @@
             "email": "hasanoozbey@gmail.com"
         }
     ],
-    "support": {
-        "issues": "https://github.com/the-turk/flarum-ext-fancybox/issues",
-        "source": "https://github.com/the-turk/flarum-ext-fancybox"
-    },
-    "extra": {
-        "flarum-extension": {
-            "title": "FancyBox",
-            "icon": {
-                "name": "far fa-image",
-                "backgroundColor": "#b72a2a",
-                "color": "#fff"
-            }
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "TheTurk\\FancyBox\\": "src/"
-        }
+  "autoload": {
+    "psr-4": {
+      "Malago\\FancyBox\\": "src/"
     }
+  },
+  "extra": {
+    "flarum-extension": {
+      "title": "FancyBox",
+      "icon": {
+            "name": "far fa-image",
+            "backgroundColor": "#b72a2a",
+            "color": "#fff"
+        }
+    },
+    "flagrow": {
+      "discuss": "https://discuss.flarum.org/d/19535-fancybox-extension-beta"
+    },
+    "support": {
+        "issues": "https://github.com/malago86/flarum-ext-fancybox/issues",
+        "source": "https://github.com/malago86/flarum-ext-fancybox"
+    }
+  }
 }

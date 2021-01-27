@@ -14,7 +14,7 @@
  *  GNU General Public License for more details.
  */
 
-namespace TheTurk\FancyBox;
+namespace Malago\FancyBox;
 
 use Flarum\Extend;
 use Illuminate\Contracts\Events\Dispatcher;
