@@ -32,6 +32,7 @@
   "extra": {
     "flarum-extension": {
       "title": "FancyBox",
+      "category": "appearance",
       "icon": {
             "name": "far fa-image",
             "backgroundColor": "#b72a2a",
