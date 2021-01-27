@@ -4,7 +4,7 @@
   "version": "0.2.0-beta.5",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "flarum-webpack-config": "^0.1.0-beta.14",
+    "flarum-webpack-config": "^0.1.0-beta.10",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "@fancyapps/fancybox": "^3.5.7"
