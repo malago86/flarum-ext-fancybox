@@ -12,7 +12,7 @@
   "type": "flarum-extension",
   "license": "GPL-3.0-or-later",
   "require": {
-    "flarum/core": "^0.1.0-beta.14",
+    "flarum/core": "^0.1.0-beta.16",
     "fof/formatting":">=0.3.1"
   },
   "authors": [
