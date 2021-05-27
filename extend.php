@@ -24,7 +24,6 @@ return [
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less'),
     (new Extend\Locales(__DIR__ . '/locale')),
-    function (Dispatcher $events) {
-        $events->subscribe(Listeners\ConfigureTextFormatter::class);
-    },
+    (new Extend\Event())
+        ->subscribe(Listeners\ConfigureTextFormatter::class),
 ];

@@ -1,3 +1,6 @@
+### 0.3.0
+- Added compatibility with Flarum 1.0.0
+
 ### 0.2.0-beta.5
 - Added compatibility with Flarum 0.1.0-beta.14
 
